@@ -75,9 +75,14 @@ class SinglyLinkedList {
 
   unshift(val) {
     let newNode = new SLLNode(val);
-    let oldHead = this.head;
-    this.head = newNode;
-    this.head.next = oldHead;
+    if (this.length <= 0) {
+      this.head = this.tail = new SLLNode(val);
+      this.length++;
+    } else {
+      let oldHead = this.head;
+      this.head = newNode;
+      this.head.next = oldHead;
+    }
     this.length++;
     return true;
   }
@@ -188,11 +193,23 @@ class DoublyLinkedList {
     if (index < 1 || index > this.length) {
       return undefined;
     } else {
-      let current = 1;
-      let node = this.head;
-      while (current < index) {
-        node = node.next;
-        current++;
+      let current, node;
+      if (index <= this.length / 2) {
+        console.log("Onward Loop");
+        current = 1;
+        node = this.head;
+        while (current < index) {
+          node = node.next;
+          current++;
+        }
+      } else {
+        console.log("Outward Loop");
+        current = this.length - 1;
+        node = this.tail;
+        while (current >= index) {
+          node = node.prev;
+          current--;
+        }
       }
       return node;
     }
@@ -305,9 +322,80 @@ class DoublyLinkedList {
   }
 }
 
-const dll = new DoublyLinkedList();
-dll.push(1);
-dll.push(2);
-dll.push(3);
-dll.push(4);
-dll.unshift(0);
+// const dll = new DoublyLinkedList();
+// dll.push(1);
+// dll.push(2);
+// dll.push(3);
+// dll.push(4);
+// dll.unshift(0);
+
+// *****************************************************************
+// *****************************************************************
+// *****************************************************************
+
+// Stack
+// stack is all about LIFO (last in, first out)
+
+// 1)  method to make a stack
+// use array to make a stack
+// the below code is a valid stack as it adds items and remove the last added items first
+let stack1 = [];
+stack1.push("1");
+stack1.pop();
+
+// the below code is also a valid stack but it is not efficient as it removes a=items from start of array which causes performance issues
+let stack2 = [];
+stack2.unshift(1);
+stack2.shift();
+
+// custom stack class code
+// we will use the singly linked list shift and unshift methods (but will name then push and pop) to make a stack as insertion and removal from start of singly linked list is O(1) so this will be a good example
+class Stack {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+  push(val) {
+    // unshift(val) {
+    let newNode = new SLLNode(val);
+    if (this.length <= 0) {
+      this.head = this.tail = new SLLNode(val);
+      this.length++;
+    } else {
+      let oldHead = this.head;
+      this.head = newNode;
+      this.head.next = oldHead;
+    }
+    this.length++;
+    return true;
+  }
+
+  pop() {
+    // shift() {
+    if (this.length <= 0) {
+      return undefined;
+    }
+    if (this.length === 1) {
+      let oldHead = this.head;
+      this.head = this.tail = null;
+      this.length--;
+      return oldHead;
+    } else {
+      let newHead = this.head.next;
+      let oldHead = this.head;
+      oldHead.next = null;
+      this.head = newHead;
+      this.length--;
+      return oldHead;
+    }
+  }
+}
+
+const sta = new Stack();
+sta.push(1);
+sta.push(2);
+sta.push(3);
+sta.push(4);
+
+// class
