@@ -28,7 +28,7 @@ class SinglyLinkedList {
   set(index, val) {
     let node = this.get(index);
     if (!node) {
-      return false;
+      return undefined;
     } else {
       node.val = val;
       return true;
@@ -115,7 +115,7 @@ class SinglyLinkedList {
     }
     let node = this.get(index - 1);
     if (!node) {
-      return false;
+      return undefined;
     } else {
       let rightSide = node.next;
       let newNode = new SLLNode(val);
@@ -135,7 +135,7 @@ class SinglyLinkedList {
     }
     let node = this.get(index - 1);
     if (!node) {
-      return false;
+      return undefined;
     } else {
       let requiredNode = node.next;
       node.next = requiredNode.next;
@@ -218,7 +218,7 @@ class DoublyLinkedList {
   set(index, val) {
     let node = this.get(index);
     if (!node) {
-      return false;
+      return undefined;
     } else {
       node.val = val;
       return true;
@@ -289,7 +289,7 @@ class DoublyLinkedList {
     }
     let node = this.get(index - 1);
     if (!node) {
-      return false;
+      return undefined;
     } else {
       let rightSide = node.next;
       let newNode = new DLLNode(val);
@@ -310,7 +310,7 @@ class DoublyLinkedList {
     }
     let node = this.get(index - 1);
     if (!node) {
-      return false;
+      return undefined;
     } else {
       let requiredNode = node.next;
       node.next = requiredNode.next;
@@ -392,10 +392,225 @@ class Stack {
   }
 }
 
-const sta = new Stack();
-sta.push(1);
-sta.push(2);
-sta.push(3);
-sta.push(4);
+// const sta = new Stack();
+// sta.push(1);
+// sta.push(2);
+// sta.push(3);
+// sta.push(4);
 
-// class
+// *****************************************************************
+// *****************************************************************
+// *****************************************************************
+
+// Queue
+// Queue is all about FIFO (first in, first out)
+
+// 1)  method to make a Queue
+// use array to make a Queue
+// the below code is a valid Queue as it adds items and remove the item which was added first
+let Queue1 = [];
+Queue1.push("1");
+Queue1.shift();
+
+// the below code is also a valid Queue and but uper and this code is same because both will cause reindex so the better example for queue is the 3 method in which we use a class (SLL)
+let Queue2 = [];
+Queue2.unshift(1);
+Queue2.pop();
+
+// custom Queue class code
+// we will use the singly linked list shift and unshift methods (but will name then push and pop) to make a Queue as insertion and removal from start of singly linked list is O(1) so this will be a good example
+class Queue {
+  // we should add item in the tail and remove item from head (this will give us FIFO functionality) and it will be the good case because if we added item in the head that will be ok but if we removed item from end that will be O(N) which is not good
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+
+  enqueue(val) {
+    // renamed "enqueue"
+    // push(val) {
+    if (this.length <= 0) {
+      this.head = this.tail = new SLLNode(val);
+      this.length++;
+      return this.head;
+    } else {
+      let node = this.tail;
+      let newNode = new SLLNode(val);
+      node.next = newNode;
+      this.tail = newNode;
+      this.length++;
+      return newNode;
+    }
+  }
+
+  dequeue() {
+    // renamed shift as dequeue, because we want to remove item from head
+    // shift() {
+    if (this.length <= 0) {
+      return undefined;
+    }
+    if (this.length === 1) {
+      let oldHead = this.head;
+      this.head = this.tail = null;
+      this.length--;
+      return oldHead;
+    } else {
+      let newHead = this.head.next;
+      let oldHead = this.head;
+      oldHead.next = null;
+      this.head = newHead;
+      this.length--;
+      return oldHead;
+    }
+  }
+}
+
+const queueOBJ = new Queue();
+queueOBJ.enqueue(1);
+queueOBJ.enqueue(2);
+queueOBJ.enqueue(3);
+queueOBJ.enqueue(4);
+
+// just some random code (ket key values from objects inside a array)
+var arr = [{ message: 1 }, { message: 2 }, { message: 3 }];
+let result = arr.flatMap(Object.values);
+
+// *****************************************************************
+// *****************************************************************
+// *****************************************************************
+
+// Binary Search Trees
+class BSTNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+    this.no_of_times_occured = 0;
+  }
+}
+
+class BinarySearchTree {
+  constructor() {
+    this.root = null;
+  }
+
+  insert(val) {
+    if (val === null || val === undefined) {
+      // for the repeated values you can use a "number of time" kep in node and increase that if a number repeats
+      return "no value passed in insert function";
+    }
+    const newNode = new BSTNode(val);
+    if (!this.root) {
+      this.root = newNode;
+      return this;
+    }
+    let continueLoop = true;
+    let observingSide = null;
+    if (val > this.root.val) {
+      observingSide = this.root.right;
+      if (!observingSide) {
+        this.root.right = newNode;
+        continueLoop = false;
+      }
+    } else if (val < this.root.val) {
+      observingSide = this.root.left;
+      if (!observingSide) {
+        this.root.left = newNode;
+        continueLoop = false;
+      }
+    } else if (val === this.root.val) {
+      this.root.no_of_times_occured++;
+      return this;
+    } else {
+      return "invalid value passed in insert function";
+    }
+
+    while (continueLoop) {
+      if (observingSide.val === val) {
+        observingSide.no_of_times_occured++;
+        continueLoop = false;
+        return this;
+      } else if (val > observingSide.val) {
+        if (!observingSide.right) {
+          observingSide.right = newNode;
+          continueLoop = false;
+        } else {
+          observingSide = observingSide.right;
+        }
+      } else {
+        if (!observingSide.left) {
+          observingSide.left = newNode;
+          continueLoop = false;
+        } else {
+          observingSide = observingSide.left;
+        }
+      }
+    }
+    return this;
+  }
+
+  search(val) {
+    if (val === null || val === undefined) {
+      // for the repeated values you can use a "number of time" kep in node and increase that if a number repeats
+      return "no value passed in insert function";
+    }
+    const newNode = new BSTNode(val);
+    if (!this.root) {
+      this.root = newNode;
+      return this;
+    }
+    let continueLoop = true;
+    let observingSide = null;
+    if (val > this.root.val) {
+      observingSide = this.root.right;
+      if (!observingSide) {
+        this.root.right = newNode;
+        continueLoop = false;
+      }
+    } else if (val < this.root.val) {
+      observingSide = this.root.left;
+      if (!observingSide) {
+        this.root.left = newNode;
+        continueLoop = false;
+      }
+    } else if (val === this.root.val) {
+      this.root.no_of_times_occured++;
+      return this;
+    } else {
+      return "invalid value passed in insert function";
+    }
+
+    while (continueLoop) {
+      if (observingSide.val === val) {
+        observingSide.no_of_times_occured++;
+        continueLoop = false;
+        return this;
+      } else if (val > observingSide.val) {
+        if (!observingSide.right) {
+          observingSide.right = newNode;
+          continueLoop = false;
+        } else {
+          observingSide = observingSide.right;
+        }
+      } else {
+        if (!observingSide.left) {
+          observingSide.left = newNode;
+          continueLoop = false;
+        } else {
+          observingSide = observingSide.left;
+        }
+      }
+    }
+    return this;
+  }
+}
+
+const BSTObj = new BinarySearchTree();
+BSTObj.insert(99);
+BSTObj.insert(98);
+BSTObj.insert(97);
+BSTObj.insert(100);
+BSTObj.insert(160);
+BSTObj.insert(170);
+BSTObj.insert(168);
