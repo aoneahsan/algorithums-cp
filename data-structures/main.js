@@ -553,56 +553,101 @@ class BinarySearchTree {
   search(val) {
     if (val === null || val === undefined) {
       // for the repeated values you can use a "number of time" kep in node and increase that if a number repeats
-      return "no value passed in insert function";
+      return "no value passed in search function";
     }
-    const newNode = new BSTNode(val);
+    if (val.NaN()) {
+      return "invalid value passed in search function";
+    }
     if (!this.root) {
-      this.root = newNode;
-      return this;
+      return "tree is empty, add something first";
     }
-    let continueLoop = true;
-    let observingSide = null;
-    if (val > this.root.val) {
-      observingSide = this.root.right;
-      if (!observingSide) {
-        this.root.right = newNode;
-        continueLoop = false;
-      }
-    } else if (val < this.root.val) {
-      observingSide = this.root.left;
-      if (!observingSide) {
-        this.root.left = newNode;
-        continueLoop = false;
-      }
-    } else if (val === this.root.val) {
-      this.root.no_of_times_occured++;
-      return this;
-    } else {
-      return "invalid value passed in insert function";
-    }
-
-    while (continueLoop) {
+    let observingSide = this.root;
+    let found = false;
+    while (observingSide && !found) {
       if (observingSide.val === val) {
-        observingSide.no_of_times_occured++;
-        continueLoop = false;
-        return this;
+        return observingSide;
       } else if (val > observingSide.val) {
-        if (!observingSide.right) {
-          observingSide.right = newNode;
-          continueLoop = false;
-        } else {
-          observingSide = observingSide.right;
-        }
+        observingSide = observingSide.right;
       } else {
-        if (!observingSide.left) {
-          observingSide.left = newNode;
-          continueLoop = false;
-        } else {
-          observingSide = observingSide.left;
-        }
+        observingSide = observingSide.left;
       }
     }
-    return this;
+    return "not found in tree";
+  }
+
+  bfs() {
+    // breath first search
+    let queue = new Queue(),
+      visitedItems = [],
+      counter = 0;
+    if (!this.root) {
+      return "tree is empty";
+    } else {
+      let current = this.root;
+      queue.enqueue(current);
+      while (queue.length > 0) {
+        current = queue.dequeue().val; // because it will return a Queue Node so get the value of that queue node.
+        visitedItems.push(current.val);
+        if (!!current.left) {
+          queue.enqueue(current.left);
+        }
+        if (!!current.right) {
+          queue.enqueue(current.right);
+        }
+        // debugger;
+        counter++;
+      }
+      return {
+        visitedItems,
+        counter,
+      };
+    }
+  }
+
+  dfsPre() {
+    // deapth first search
+    let data = [];
+    let counter = 0;
+    function treverse(node) {
+      data.push(node.val);
+      if (node.left) treverse(node.left);
+      if (node.right) treverse(node.right);
+      counter++;
+    }
+    treverse(this.root);
+    return { data, counter };
+  }
+
+  dfsPost() {
+    let data = [];
+    let counter = 0;
+    function treverse(node) {
+      if (node.left) treverse(node.left);
+      if (node.right) treverse(node.right);
+      data.push(node.val);
+      counter++;
+    }
+    treverse(this.root);
+    return {
+      data,
+      counter,
+    };
+  }
+
+  dfsInOrder() {
+    let data = [];
+    let counter = 0;
+    function treverse(node) {
+      if (node.left) treverse(node.left);
+      data.push(node.val);
+      if (node.right) treverse(node.right);
+      counter++;
+    }
+    treverse(this.root);
+    return {
+      data,
+      counter,
+    };
   }
 }
 
