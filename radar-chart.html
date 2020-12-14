@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <style>
+      body {
+        text-align: center;
+        background-color: antiquewhite;
+      }
+      body,
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+      .con {
+        position: absolute;
+        padding: 20px;
+        background-color: white;
+        width: 90vw;
+        height: 70vh;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+      #chart {
+        display: inline-block !important;
+        /* width: 1000px !important;
+        height: 400px !important; */
+        margin: auto !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="con">
+      <canvas
+        id="chart"
+        width="600"
+        height="200"
+        aria-label="Hello ARIA World"
+        role="img"
+      ></canvas>
+    </div>
+    <script>
+      let chartObj = document.getElementById("chart").getContext("2d");
+      let chart = new Chart(chartObj, {
+        type: "radar",
+        data: {
+          labels: ["jun", "feb", "march", "april", "may"],
+          datasets: [
+            {
+              backgroundColor: "rgba(0,220,121,.7)",
+              borderCapStyle: "square", // "butt" || "round" || "square";
+              borderColor: "rgba(90,10,21,.7)",
+              borderDash: [5, 15, 5],
+              borderDashOffset: 1,
+              borderJoinStyle: "miter", //"bevel" || "round" || "miter";
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone", // 'default' || 'monotone'
+              clip: 8, // {left: 5, top: false, right: -2, bottom: 0}
+              fill: true,
+              hoverBackgroundColor: "rgba(110,0,121,.7)",
+              hoverBorderCapStyle: "round",
+              hoverBorderColor: "rgba(110,160,121,.7)",
+              hoverBorderDash: 3,
+              hoverBorderDashOffset: 2,
+              hoverBorderJoinStyle: "round",
+              hoverBorderWidth: 2,
+              label: "First",
+              lineTension: 0, //.4
+              order: 1, // 0
+              pointBackgroundColor: "rgba(0, 110, 200, 0.8)", // 'rgba(0, 0, 0, 0.8)'
+              pointBorderColor: "rgba(210, 20, 20, 0.8)",
+              pointBorderWidth: 1,
+              pointHitRadius: 20,
+              pointHoverBackgroundColor: "rgba(210, 20, 20, 0.8)",
+              pointHoverBorderColor: "rgba(70, 110, 200, 0.8)",
+              pointHoverBorderWidth: 2,
+              pointHoverRadius: 2,
+              // pointRadius: 5,
+              pointRotation: 0,
+              pointStyle: "circle", // 'circle' || 'cross' || 'crossRot' || 'dash' || 'line' || 'rect' || 'rectRounded' || 'rectRot' || 'star' || 'triangle'
+              showLine: true,
+              spanGaps: false,
+              steppedLine: false,
+              //   xAxisID: "first x axis",
+              //   yAxisID: 200,
+              data: [0, 10, 120, 130, 140, 2],
+            },
+            {
+              backgroundColor: "rgba(10,111,121,.7)",
+              borderCapStyle: "square", // "butt" || "round" || "square";
+              borderColor: "rgba(90,10,21,.7)",
+              borderDash: [1],
+              borderDashOffset: 1,
+              borderJoinStyle: "miter", //"bevel" || "round" || "miter";
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone", // 'default' || 'monotone'
+              clip: 8, // {left: 5, top: false, right: -2, bottom: 0}
+              fill: true,
+              hoverBackgroundColor: "rgba(110,0,121,.7)",
+              hoverBorderCapStyle: "round",
+              hoverBorderColor: "rgba(110,160,121,.7)",
+              hoverBorderDash: 3,
+              hoverBorderDashOffset: 2,
+              hoverBorderJoinStyle: "round",
+              hoverBorderWidth: 2,
+              label: "First",
+              lineTension: 0, //.4
+              order: 1, // 0
+              pointBackgroundColor: "rgba(0, 110, 200, 0.8)", // 'rgba(0, 0, 0, 0.8)'
+              pointBorderColor: "rgba(210, 20, 20, 0.8)",
+              pointBorderWidth: 1,
+              pointHitRadius: 20,
+              pointHoverBackgroundColor: "rgba(210, 20, 20, 0.8)",
+              pointHoverBorderColor: "rgba(70, 110, 200, 0.8)",
+              pointHoverBorderWidth: 2,
+              pointHoverRadius: 2,
+              pointRadius: 10,
+              pointRotation: 0,
+              pointStyle: "circle", // 'circle' || 'cross' || 'crossRot' || 'dash' || 'line' || 'rect' || 'rectRounded' || 'rectRot' || 'star' || 'triangle'
+              showLine: true,
+              spanGaps: true,
+              steppedLine: false,
+              //   xAxisID: "first x axis",
+              //   yAxisID: 200,
+              data: [110, 160, 20, 310, 40, 50],
+            },
+            {
+              backgroundColor: "rgba(0,0,121,.7)",
+              borderCapStyle: "square", // "butt" || "round" || "square";
+              borderColor: "rgba(90,10,21,.7)",
+              borderDash: [5, 15, 5],
+              borderDashOffset: 1,
+              borderJoinStyle: "miter", //"bevel" || "round" || "miter";
+              borderWidth: 1,
+              cubicInterpolationMode: "monotone", // 'default' || 'monotone'
+              clip: 8, // {left: 5, top: false, right: -2, bottom: 0}
+              fill: true,
+              hoverBackgroundColor: "rgba(110,0,121,.7)",
+              hoverBorderCapStyle: "round",
+              hoverBorderColor: "rgba(110,160,121,.7)",
+              hoverBorderDash: 3,
+              hoverBorderDashOffset: 2,
+              hoverBorderJoinStyle: "round",
+              hoverBorderWidth: 2,
+              label: "First",
+              lineTension: 0, //.4
+              order: 1, // 0
+              pointBackgroundColor: "rgba(0, 110, 200, 0.8)", // 'rgba(0, 0, 0, 0.8)'
+              pointBorderColor: "rgba(210, 20, 20, 0.8)",
+              pointBorderWidth: 1,
+              pointHitRadius: 20,
+              pointHoverBackgroundColor: "rgba(210, 20, 20, 0.8)",
+              pointHoverBorderColor: "rgba(70, 110, 200, 0.8)",
+              pointHoverBorderWidth: 2,
+              pointHoverRadius: 2,
+              pointRadius: 5,
+              pointRotation: 0,
+              pointStyle: "circle", // 'circle' || 'cross' || 'crossRot' || 'dash' || 'line' || 'rect' || 'rectRounded' || 'rectRot' || 'star' || 'triangle'
+              showLine: true,
+              spanGaps: false,
+              steppedLine: false,
+              //   xAxisID: "first x axis",
+              //   yAxisID: 200,
+              data: [50, 10, 120, 30, 0, 50],
+            },
+          ],
+        },
+        options: {
+          showLines: false,
+          spanGaps: false,
+          scale: {
+            angleLines: {
+              display: true,
+            },
+            ticks: {
+              suggestedMin: 50,
+              suggestedMax: 100,
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
