@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <style>
+      body {
+        text-align: center;
+        background-color: antiquewhite;
+      }
+      body,
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+      .con {
+        position: absolute;
+        padding: 20px;
+        background-color: white;
+        width: 90vw;
+        height: 70vh;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+      #chart {
+        display: inline-block !important;
+        /* width: 1000px !important;
+        height: 400px !important; */
+        margin: auto !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="con">
+      <canvas
+        id="chart"
+        width="600"
+        height="200"
+        aria-label="Hello ARIA World"
+        role="img"
+      ></canvas>
+    </div>
+    <script>
+      let chartObj = document.getElementById("chart").getContext("2d");
+      var onLegendClick;
+      const gradient1 = chartObj.createLinearGradient(600, 0, 0, 601);
+      gradient1.addColorStop(0, "rgba(0,110,0,0.6)");
+      // gradient1.addColorStop(0.25, "purple");
+      // gradient1.addColorStop(0.5, "yellow");
+      // gradient1.addColorStop(0.75, "blue");
+      gradient1.addColorStop(1, "rgba(0,0,0,0.6)");
+      let chart = new Chart(chartObj, {
+        type: "line",
+        data: {
+          labels: ["jun", "feb", "march", "april", "may"],
+          datasets: [
+            {
+              backgroundColor: gradient1,
+              borderColor: "rgba(90,10,21,.7)",
+              label: "First",
+              data: [111, 30, 6, 119, 12, 16, 109],
+            },
+            {
+              backgroundColor: "rgba(0,22,1,.37)",
+              borderColor: "rgba(90,10,21,.7)",
+              label: "Second",
+              data: [10, 3, 60, 9, 12, 106, 19],
+            },
+            {
+              backgroundColor: "rgba(0,20,121,.37)",
+              borderColor: "rgba(90,10,21,.7)",
+              label: "Tired",
+              data: [10, 30, 90, 90, 102, 06, 119],
+            },
+          ],
+        },
+        options: {
+          title: {
+            text: "ok",
+            display: true,
+            fontSize: 30,
+            position: "bottom",
+            fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+            fontColor: "green",
+            fontStyle: "italic", //"bold",
+            padding: 10,
+            lineHeight: 1.5,
+          },
+          legend: {
+            display: true,
+            position: "top",
+            align: "end",
+            fullWidth: false,
+            // onClick: (event) => {
+            //   console.log("legend onClick, event = ", event);
+            // },
+            // onHover: (event) => {
+            //   console.log("legend onHover, event = ", event);
+            // },
+            // onLeave: (event) => {
+            //   console.log("legend onLeave, event = ", event);
+            // },
+            reverse: true,
+            // labels: []
+            rtl: true,
+            textDirection: "ltr",
+            labels: {
+              display: false,
+              fontColor: "rgb(255, 99, 132)",
+              boxWidth: 40,
+              fontSize: 14,
+              fontStyle: "bold",
+              usePointStyle: true,
+              fontFamily: "'Arial', sans-serif",
+              padding: 20,
+            },
+          },
+          showLines: true,
+          spanGaps: true,
+          scales: {
+            yAxes: [
+              {
+                stacked: false,
+              },
+            ],
+          },
+        },
+      });
+
+    </script>
+  </body>
+</html>

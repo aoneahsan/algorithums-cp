@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <style>
+      .container {
+        width: 80%;
+        margin: 15px auto;
+      }
+
+      [class$="-legend"] {
+        list-style: none;
+        cursor: pointer;
+        padding-left: 0;
+      }
+
+      [class$="-legend"] li {
+        display: inline-block;
+        padding: 0 5px;
+      }
+
+      [class$="-legend"] li.hidden {
+        text-decoration: line-through;
+      }
+
+      [class$="-legend"] li span {
+        border-radius: 5px;
+        display: inline-block;
+        height: 10px;
+        margin-right: 10px;
+        width: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Chart.js — Pie Chart Demo</h2>
+      <div>
+        <div id="legend"></div>
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+
+    <script>
+      var ctx = document.getElementById("myChart").getContext("2d");
+      const labels = [
+        "Green",
+        "Blue",
+        "Gray",
+        "Purple",
+        "Yellow",
+        "Red",
+        "Black",
+      ];
+      const myData = [12, 19, 3, 17, 28, 24, 7];
+      const drillDownLink = (click, myData) => {
+        if (myData[0]) {
+          const x = myData[0]['_index'];
+          const item = labels[x].toLowerCase();
+          console.log(item);
+          // window.location.href = "www.google.com/"+x;
+        }
+      };
+      var chart = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              backgroundColor: [
+                "#2ecc71",
+                "#3498db",
+                "#95a5a6",
+                "#9b59b6",
+                "#f1c40f",
+                "#e74c3c",
+                "#34495e",
+              ],
+              data: myData,
+            },
+          ],
+        },
+        options: {
+          legend: {
+            display: false,
+          },
+          onClick: drillDownLink,
+        },
+      });
+
+      var myLegendContainer = document.getElementById("legend");
+      // generate HTML legend
+      myLegendContainer.innerHTML = chart.generateLegend();
+      // bind onClick event to all LI-tags of the legend
+      var legendItems = myLegendContainer.getElementsByTagName("li");
+      for (var i = 0; i < legendItems.length; i += 1) {
+        legendItems[i].addEventListener("click", legendClickCallback, false);
+      }
+
+      function legendClickCallback(event) {
+        event = event || window.event;
+
+        var target = event.target || event.srcElement;
+        while (target.nodeName !== "LI") {
+          console.log("while loop == finding li == target = ", target);
+          target = target.parentElement;
+        }
+        var parent = target.parentElement;
+        console.log("parent = ", parent);
+        console.log("parent.classList = ", parent.classList);
+        var chartId = parseInt(parent.classList[0].split("-")[0], 10);
+        console.log("chartId = ", chartId);
+        var chart = Chart.instances[chartId];
+        console.log("chart = ", chart);
+        var index = Array.prototype.slice.call(parent.children).indexOf(target);
+        var meta = chart.getDatasetMeta(0);
+        console.log("index = ", index);
+        var item = meta.data[index];
+        console.log("item = ", item);
+        if (item.hidden === null || item.hidden === false) {
+          item.hidden = true;
+          target.classList.add("hidden");
+        } else {
+          target.classList.remove("hidden");
+          item.hidden = null;
+        }
+        chart.update();
+      }
+    </script>
+  </body>
+</html>

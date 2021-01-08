@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <style>
+      .container {
+        width: 50%;
+        margin: 15px auto;
+      }
+
+      [class$="-legend"] {
+        list-style: none;
+        cursor: pointer;
+        padding-left: 0;
+      }
+
+      [class$="-legend"] li {
+        display: inline-block;
+        padding: 0 5px;
+      }
+
+      [class$="-legend"] li.hidden {
+        text-decoration: line-through;
+      }
+
+      [class$="-legend"] li span {
+        border-radius: 5px;
+        display: inline-block;
+        height: 10px;
+        margin-right: 10px;
+        width: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Chart.js — Pie Chart Demo</h2>
+      <div>
+        <div id="legend"></div>
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+
+    <script>
+      var ctx = document.getElementById("myChart").getContext("2d");
+      var chart = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: ["Green", "Blue", "Gray", "Purple", "Yellow", "Red", "Black"],
+          datasets: [
+            {
+              backgroundColor: [
+                "#2ecc71",
+                "#3498db",
+                "#95a5a6",
+                "#9b59b6",
+                "#f1c40f",
+                "#e74c3c",
+                "#34495e",
+              ],
+              data: [12, 19, 3, 17, 28, 24, 7],
+            },
+          ],
+        },
+        options: {
+          legend: {
+            display: false,
+          },
+          tooltips: {
+            enabled: true,
+            mode: "index",
+            intersect: true,
+            position: "nearest", //"average"
+            backgroundColor: "yellow",
+            titleFontFamily: "Arial",
+            titleFontSize: 18,
+            titleFontStyle: "italic",
+            titleFontColor: "white",
+            titleAlign: "center",
+            titleSpacing: 10,
+            titleMarginBottom: 10,
+            bodyFontFamily: "serif",
+            bodyFontSize: 14,
+            bodyFontStyle: "bold",
+            bodyFontColor: "black",
+            bodyAlign: "right",
+            bodySpacing: 6,
+            footerFontFamily: "Arial",
+            footerFontSize: 20,
+            footerFontStyle: "bold",
+            footerFontColor: "red",
+            footerAlign: "center",
+            footerSpacing: 7,
+            footerMarginTop: 20,
+            xPadding: 10,
+            yPadding: 4,
+            caretPadding: 6,
+            caretSize: 10,
+            cornerRadius: 1,
+            multiKeyBackground: "#eae",
+            displayColors: false,
+            borderColor: "#daeadffa",
+            borderWidth: 2,
+            rtl: false,
+            textDirection: "rtl",
+            custom: function (tooltipModel) {
+              // Tooltip Element
+              var tooltipEl = document.getElementById("chartjs-tooltip");
+
+              // Create element on first render
+              if (!tooltipEl) {
+                tooltipEl = document.createElement("div");
+                tooltipEl.id = "chartjs-tooltip";
+                tooltipEl.innerHTML = "<table></table>";
+                document.body.appendChild(tooltipEl);
+              }
+
+              // Hide if no tooltip
+              if (tooltipModel.opacity === 0) {
+                tooltipEl.style.opacity = 0;
+                return;
+              }
+
+              // Set caret Position
+              tooltipEl.classList.remove("above", "below", "no-transform");
+              if (tooltipModel.yAlign) {
+                tooltipEl.classList.add(tooltipModel.yAlign);
+              } else {
+                tooltipEl.classList.add("no-transform");
+              }
+
+              function getBody(bodyItem) {
+                return bodyItem.lines;
+              }
+
+              // Set Text
+              if (tooltipModel.body) {
+                var titleLines = tooltipModel.title || [];
+                var bodyLines = tooltipModel.body.map(getBody);
+
+                var innerHtml = "<thead>";
+
+                titleLines.forEach(function (title) {
+                  innerHtml += "<tr><th>" + title + "</th></tr>";
+                });
+                innerHtml += "</thead><tbody>";
+
+                bodyLines.forEach(function (body, i) {
+                  var colors = tooltipModel.labelColors[i];
+                  var style = "background:" + colors.backgroundColor;
+                  style += "; border-color:" + colors.borderColor;
+                  style += "; border-width: 2px";
+                  var span = '<span style="' + style + '"></span>';
+                  innerHtml += "<tr><td>" + span + body + "</td></tr>";
+                });
+                innerHtml += "</tbody>";
+
+                var tableRoot = tooltipEl.querySelector("table");
+                tableRoot.innerHTML = innerHtml;
+              }
+
+              // `this` will be the overall tooltip
+              var position = this._chart.canvas.getBoundingClientRect();
+
+              // Display, position, and set styles for font
+              tooltipEl.style.opacity = 1;
+              tooltipEl.style.position = "absolute";
+              tooltipEl.style.left =
+                position.left + window.pageXOffset + tooltipModel.caretX + "px";
+              tooltipEl.style.top =
+                position.top + window.pageYOffset + tooltipModel.caretY + "px";
+              tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
+              tooltipEl.style.fontSize = tooltipModel.bodyFontSize + "px";
+              tooltipEl.style.fontStyle = tooltipModel._bodyFontStyle;
+              tooltipEl.style.padding =
+                tooltipModel.yPadding + "px " + tooltipModel.xPadding + "px";
+              tooltipEl.style.pointerEvents = "none";
+            },
+            callbacks: {
+              // label: function (tooltipItem, data) {
+              //   var label = data.datasets[tooltipItem.datasetIndex].label || "";
+
+              //   if (label) {
+              //     label += ": ";
+              //   }
+              //   label += Math.round(tooltipItem.yLabel * 100) / 100;
+              //   return label;
+              // },
+              labelColor: function (tooltipItem, chart) {
+                return {
+                  borderColor: "rgb(255, 0, 0)",
+                  backgroundColor: "rgb(255, 0, 0)",
+                };
+              },
+              labelTextColor: function (tooltipItem, chart) {
+                return "#543453";
+              },
+            },
+          },
+        },
+      });
+
+      var myLegendContainer = document.getElementById("legend");
+      // generate HTML legend
+      myLegendContainer.innerHTML = chart.generateLegend();
+      // bind onClick event to all LI-tags of the legend
+      var legendItems = myLegendContainer.getElementsByTagName("li");
+      for (var i = 0; i < legendItems.length; i += 1) {
+        legendItems[i].addEventListener("click", legendClickCallback, false);
+      }
+
+      function legendClickCallback(event) {
+        event = event || window.event;
+
+        var target = event.target || event.srcElement;
+        while (target.nodeName !== "LI") {
+          console.log("while loop == finding li == target = ", target);
+          target = target.parentElement;
+        }
+        var parent = target.parentElement;
+        console.log("parent = ", parent);
+        console.log("parent.classList = ", parent.classList);
+        var chartId = parseInt(parent.classList[0].split("-")[0], 10);
+        console.log("chartId = ", chartId);
+        var chart = Chart.instances[chartId];
+        console.log("chart = ", chart);
+        var index = Array.prototype.slice.call(parent.children).indexOf(target);
+        var meta = chart.getDatasetMeta(0);
+        console.log("index = ", index);
+        var item = meta.data[index];
+        console.log("item = ", item);
+        if (item.hidden === null || item.hidden === false) {
+          item.hidden = true;
+          target.classList.add("hidden");
+        } else {
+          target.classList.remove("hidden");
+          item.hidden = null;
+        }
+        chart.update();
+      }
+    </script>
+  </body>
+</html>

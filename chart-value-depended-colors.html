@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <style>
+      body {
+        text-align: center;
+        background-color: antiquewhite;
+      }
+      body,
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+      .con {
+        position: absolute;
+        padding: 20px;
+        background-color: white;
+        width: 90vw;
+        height: 70vh;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+      #chart {
+        display: inline-block !important;
+        /* width: 1000px !important;
+        height: 400px !important; */
+        margin: auto !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="con">
+      <canvas
+        id="chart"
+        width="600"
+        height="200"
+        aria-label="Hello ARIA World"
+        role="img"
+      ></canvas>
+    </div>
+    <script>
+      let chartObj = document.getElementById("chart").getContext("2d");
+      const gradient1 = chartObj.createLinearGradient(600, 0, 0, 601);
+      gradient1.addColorStop(0, "rgba(0,110,0,0.6)");
+      // gradient1.addColorStop(0.25, "purple");
+      // gradient1.addColorStop(0.5, "yellow");
+      // gradient1.addColorStop(0.75, "blue");
+      gradient1.addColorStop(1, "rgba(0,0,0,0.6)");
+      const d1 = [111, -30, 6, 119, 12, 16, -90];
+      const d2 = [-100, 3, 60, 9, -60, 106, 19];
+      const d3 = [-10, 30, -90, 90, 102, 06, 119];
+      const c1 = [];
+      const c2 = [];
+      const c3 = [];
+      for (let index = 0; index < d1.length; index++) {
+        if (+d1[index] > -1) {
+          c1[index] = "rgba(0,110,0,0.6)";
+        } else {
+          c1[index] = "rgba(110,0,0,0.6)";
+        }
+      }
+      for (let index = 0; index < d2.length; index++) {
+        if (+d2[index] > -1) {
+          c2[index] = "rgba(0,110,0,0.6)";
+        } else {
+          c2[index] = "rgba(110,0,0,0.6)";
+        }
+      }
+      for (let index = 0; index < d3.length; index++) {
+        if (+d3[index] > -1) {
+          c3[index] = "rgba(0,110,0,0.6)";
+        } else {
+          c3[index] = "rgba(110,0,0,0.6)";
+        }
+      }
+
+      let chart = new Chart(chartObj, {
+        type: "horizontalBar",
+        data: {
+          labels: ["jun", "feb", "march", "april", "may"],
+          datasets: [
+            {
+              backgroundColor: c1,
+              borderColor: gradient1,
+              label: "First",
+              data: d1,
+            },
+            {
+              backgroundColor: c2,
+              borderColor: gradient1,
+              label: "Second",
+              data: d2,
+            },
+            {
+              backgroundColor: c3,
+              borderColor: c1,
+              label: "Tired",
+              data: d3,
+            },
+          ],
+        },
+        options: {
+          title: {
+            text: "ok",
+            display: true,
+            fontSize: 30,
+            position: "bottom",
+            fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+            fontColor: "green",
+            fontStyle: "italic", //"bold",
+            padding: 10,
+            lineHeight: 1.5,
+          },
+          legend: {
+            display: true,
+            position: "top",
+            align: "end",
+            fullWidth: false,
+            // onClick: (event) => {
+            //   console.log("legend onClick, event = ", event);
+            // },
+            // onHover: (event) => {
+            //   console.log("legend onHover, event = ", event);
+            // },
+            // onLeave: (event) => {
+            //   console.log("legend onLeave, event = ", event);
+            // },
+            reverse: true,
+            // labels: []
+            rtl: true,
+            textDirection: "ltr",
+            labels: {
+              display: false,
+              fontColor: "rgb(255, 99, 132)",
+              boxWidth: 40,
+              fontSize: 14,
+              fontStyle: "bold",
+              usePointStyle: true,
+              fontFamily: "'Arial', sans-serif",
+              padding: 20,
+            },
+          },
+          showLines: true,
+          spanGaps: true,
+          scales: {
+            yAxes: [
+              {
+                stacked: false,
+              },
+            ],
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
