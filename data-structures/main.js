@@ -1151,17 +1151,49 @@ class Graph {
   }
 }
 
-const gph = new Graph();
-gph.addVertex("a");
-gph.addVertex("b");
-gph.addVertex("c");
-gph.addVertex("d");
-gph.addVertex("e");
-gph.addVertex("f");
-gph.addEdge("a", "b");
-gph.addEdge("a", "c");
-gph.addEdge("b", "d");
-gph.addEdge("c", "e");
-gph.addEdge("d", "e");
-gph.addEdge("d", "f");
-gph.addEdge("e", "f");
+// const gph = new Graph();
+// gph.addVertex("a");
+// gph.addVertex("b");
+// gph.addVertex("c");
+// gph.addVertex("d");
+// gph.addVertex("e");
+// gph.addVertex("f");
+// gph.addEdge("a", "b");
+// gph.addEdge("a", "c");
+// gph.addEdge("b", "d");
+// gph.addEdge("c", "e");
+// gph.addEdge("d", "e");
+// gph.addEdge("d", "f");
+// gph.addEdge("e", "f");
+
+
+class weightedGraph {
+  constructor() {
+    this.data = {};
+  }
+
+  addVertex(v) {
+    if (!this.data[v]) {
+      this.data[v] = [];
+      return "added";
+    }
+    return "exists";
+  }
+
+  addEdge(v1, v2, w) {
+    if (!v1 || !v2 || !w) {
+      this.data[v1].push({vertex: v2, weigth: w});
+      this.data[v2].push({vertex: v1, weigth: w});
+    }
+  }
+}
+
+const wgObj = new weightedGraph();
+wgObj.addVertex("a");
+wgObj.addVertex("b");
+wgObj.addVertex("c");
+wgObj.addVertex("d");
+
+wgObj.addEdge("a", "b", 5);
+wgObj.addEdge("a", "c", 7);
+wgObj.addEdge("b", "d", 10);
